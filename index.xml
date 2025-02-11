@@ -2,25 +2,25 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>心之所憩</title>
-    <link>http://localhost:1313/</link>
+    <link>https://einfari.com/</link>
     <description>Recent content on 心之所憩</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
     <copyright>&amp;copy; Copyright All rights reserved</copyright>
     <lastBuildDate>Mon, 10 Feb 2025 20:04:55 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://einfari.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>NeoVim文件跳转技巧总结</title>
-      <link>http://localhost:1313/posts/neovim%E6%96%87%E4%BB%B6%E8%B7%B3%E8%BD%AC%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93/</link>
+      <link>https://einfari.com/posts/neovim%E6%96%87%E4%BB%B6%E8%B7%B3%E8%BD%AC%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93/</link>
       <pubDate>Mon, 10 Feb 2025 20:04:55 +0800</pubDate>
-      <guid>http://localhost:1313/posts/neovim%E6%96%87%E4%BB%B6%E8%B7%B3%E8%BD%AC%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93/</guid>
+      <guid>https://einfari.com/posts/neovim%E6%96%87%E4%BB%B6%E8%B7%B3%E8%BD%AC%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93/</guid>
       <description>本文总结了 NeoVim 中常用的文件跳转技巧，包括跳转列表、更改列表、标记等多种方式，帮助你在编辑时更高效地在多个位置之间导航。</description>
     </item>
     <item>
       <title>Python学习入门</title>
-      <link>http://localhost:1313/posts/python%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/</link>
+      <link>https://einfari.com/posts/python%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/</link>
       <pubDate>Mon, 10 Feb 2025 19:57:31 +0800</pubDate>
-      <guid>http://localhost:1313/posts/python%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/</guid>
+      <guid>https://einfari.com/posts/python%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/</guid>
       <description>本文提供了一个全面的Python学习路线图，从基础环境搭建到数据分析、机器学习和大模型开发，包含详细的学习资源推荐和实战项目建议，适合想系统学习Python的初学者。</description>
     </item>
   </channel>
