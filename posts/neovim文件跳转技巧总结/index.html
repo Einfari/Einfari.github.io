@@ -1,0 +1,423 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-cn"
+  dir="ltr"
+>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>NeoVim文件跳转技巧总结 - 心之所憩</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="在 NeoVim 中，如果你想在多个位置之间跳转（例如光标位置、编辑位置等），可以使用以下几种方式：
+
+1. 使用跳转列表（Jumplist）
+NeoVim 会记录光标的跳转历史，可以通过以下命令在跳转列表中导航：
+
+Ctrl-o：跳转到上一个位置（向后跳转）。
+Ctrl-i 或 Tab：跳转到下一个位置（向前跳转）。
+:jumps：查看完整的跳转列表。
+
+跳转列表会记录光标的位置变化，包括文件之间的跳转。
+
+2. 使用更改列表（Changelist）
+NeoVim 会记录文件的修改位置，可以通过以下命令在更改列表中导航：
+
+g;：跳转到上一个修改的位置。
+g,：跳转到下一个修改的位置。
+:changes：查看完整的更改列表。
+
+
+3. 使用标记（Marks）
+标记是用户自定义的光标位置，可以在文件内或跨文件跳转。
+
+m{a-z}：在当前光标位置设置一个标记（例如 ma 设置标记 a）。
+ `{a-z}：跳转到标记位置（例如  `a 跳转到标记 a）。
+&#39;{a-z}：跳转到标记位置的行首。
+:marks：查看所有标记。
+
+特殊标记：
+
+ `.：跳转到最后一次修改的位置。
+ `^：跳转到最后一次插入模式结束的位置。
+ `0：跳转到最后一次退出 Vim 时的位置。
+
+
+4. 使用全局标记（跨文件跳转）
+
+m{A-Z}：设置全局标记（例如 mA 设置全局标记 A）。
+ `{A-Z}：跳转到全局标记位置（例如  `A 跳转到全局标记 A）。
+
+
+5. 使用 :browse oldfiles 或 :oldfiles
+
+:browse oldfiles：打开最近编辑过的文件列表，可以选择跳转。
+:oldfiles：列出最近编辑过的文件。
+
+
+6. 使用插件增强跳转功能
+以下插件可以帮助你更高效地在多个位置之间跳转：
+
+vim-peekaboo：增强标记和跳转列表的显示。
+vim-signature：显示标记位置。
+coc.nvim：提供更智能的跳转功能（如定义跳转、引用跳转等）。
+telescope.nvim：通过模糊查找快速跳转到标记、跳转列表等。
+
+
+7. 使用 :ju 和 :ch 查看跳转和更改列表
+
+:ju：查看跳转列表。
+:ch：查看更改列表。
+
+
+8. 使用 :h jumplist 和 :h changelist 查看帮助
+
+:h jumplist：查看跳转列表的详细文档。
+:h changelist：查看更改列表的详细文档。
+
+
+总结
+
+跳转列表：Ctrl-o 和 Ctrl-i 是最常用的方式。
+更改列表：g; 和 g, 适合在修改位置之间跳转。
+标记：适合保存和跳转到特定位置。
+插件：可以增强跳转功能，提供更直观的导航。
+
+通过这些方法，你可以在 NeoVim 中高效地在多个位置之间跳转！" />
+  <meta name="author" content="心之所憩" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  <script
+    defer
+    src="http://localhost:1313/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link
+    rel="icon"
+    href="http://localhost:1313/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="http://localhost:1313/apple-touch-icon.png"
+  />
+
+  
+  <meta name="generator" content="Hugo 0.143.1">
+
+  
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-[--w] px-8 lg:justify-center">
+  <div class="relative z-50 ltr:mr-auto rtl:ml-auto flex items-center">
+    <a class="-translate-y-[1px] text-2xl font-medium" href="http://localhost:1313/"
+      >心之所憩</a
+    >
+    <div
+      class="btn-dark text-[0] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 ltr:-mr-8 rtl:-ml-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100vh-9rem)] max-w-[--w] px-8 pb-16 pt-14 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-14">
+    <h1 class="!my-0 pb-2.5">NeoVim文件跳转技巧总结</h1>
+
+    
+    <div class="text-xs antialiased opacity-60">
+      
+      <time>Feb 10, 2025</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><p>在 NeoVim 中，如果你想在<strong>多个位置之间跳转</strong>（例如光标位置、编辑位置等），可以使用以下几种方式：</p>
+<hr>
+<h3 id="1-使用跳转列表jumplist">1. <strong>使用跳转列表（Jumplist）</strong></h3>
+<p>NeoVim 会记录光标的跳转历史，可以通过以下命令在跳转列表中导航：</p>
+<ul>
+<li><strong><code>Ctrl-o</code></strong>：跳转到上一个位置（向后跳转）。</li>
+<li><strong><code>Ctrl-i</code></strong> 或 <strong><code>Tab</code></strong>：跳转到下一个位置（向前跳转）。</li>
+<li><strong><code>:jumps</code></strong>：查看完整的跳转列表。</li>
+</ul>
+<p>跳转列表会记录光标的位置变化，包括文件之间的跳转。</p>
+<hr>
+<h3 id="2-使用更改列表changelist">2. <strong>使用更改列表（Changelist）</strong></h3>
+<p>NeoVim 会记录文件的修改位置，可以通过以下命令在更改列表中导航：</p>
+<ul>
+<li><strong><code>g;</code></strong>：跳转到上一个修改的位置。</li>
+<li><strong><code>g,</code></strong>：跳转到下一个修改的位置。</li>
+<li><strong><code>:changes</code></strong>：查看完整的更改列表。</li>
+</ul>
+<hr>
+<h3 id="3-使用标记marks">3. <strong>使用标记（Marks）</strong></h3>
+<p>标记是用户自定义的光标位置，可以在文件内或跨文件跳转。</p>
+<ul>
+<li><strong><code>m{a-z}</code></strong>：在当前光标位置设置一个标记（例如 <code>ma</code> 设置标记 <code>a</code>）。</li>
+<li><strong><code> `{a-z}</code></strong>：跳转到标记位置（例如 <code> `a</code> 跳转到标记 <code>a</code>）。</li>
+<li><strong><code>'{a-z}</code></strong>：跳转到标记位置的行首。</li>
+<li><strong><code>:marks</code></strong>：查看所有标记。</li>
+</ul>
+<p>特殊标记：</p>
+<ul>
+<li><strong><code> `.</code></strong>：跳转到最后一次修改的位置。</li>
+<li><strong><code> `^</code></strong>：跳转到最后一次插入模式结束的位置。</li>
+<li><strong><code> `0</code></strong>：跳转到最后一次退出 Vim 时的位置。</li>
+</ul>
+<hr>
+<h3 id="4-使用全局标记跨文件跳转">4. <strong>使用全局标记（跨文件跳转）</strong></h3>
+<ul>
+<li><strong><code>m{A-Z}</code></strong>：设置全局标记（例如 <code>mA</code> 设置全局标记 <code>A</code>）。</li>
+<li><strong><code> `{A-Z}</code></strong>：跳转到全局标记位置（例如 <code> `A</code> 跳转到全局标记 <code>A</code>）。</li>
+</ul>
+<hr>
+<h3 id="5-使用-browse-oldfiles-或-oldfiles">5. <strong>使用 <code>:browse oldfiles</code> 或 <code>:oldfiles</code></strong></h3>
+<ul>
+<li><strong><code>:browse oldfiles</code></strong>：打开最近编辑过的文件列表，可以选择跳转。</li>
+<li><strong><code>:oldfiles</code></strong>：列出最近编辑过的文件。</li>
+</ul>
+<hr>
+<h3 id="6-使用插件增强跳转功能">6. <strong>使用插件增强跳转功能</strong></h3>
+<p>以下插件可以帮助你更高效地在多个位置之间跳转：</p>
+<ul>
+<li><strong>vim-peekaboo</strong>：增强标记和跳转列表的显示。</li>
+<li><strong>vim-signature</strong>：显示标记位置。</li>
+<li><strong>coc.nvim</strong>：提供更智能的跳转功能（如定义跳转、引用跳转等）。</li>
+<li><strong>telescope.nvim</strong>：通过模糊查找快速跳转到标记、跳转列表等。</li>
+</ul>
+<hr>
+<h3 id="7-使用-ju-和-ch-查看跳转和更改列表">7. <strong>使用 <code>:ju</code> 和 <code>:ch</code> 查看跳转和更改列表</strong></h3>
+<ul>
+<li><strong><code>:ju</code></strong>：查看跳转列表。</li>
+<li><strong><code>:ch</code></strong>：查看更改列表。</li>
+</ul>
+<hr>
+<h3 id="8-使用-h-jumplist-和-h-changelist-查看帮助">8. <strong>使用 <code>:h jumplist</code> 和 <code>:h changelist</code> 查看帮助</strong></h3>
+<ul>
+<li><strong><code>:h jumplist</code></strong>：查看跳转列表的详细文档。</li>
+<li><strong><code>:h changelist</code></strong>：查看更改列表的详细文档。</li>
+</ul>
+<hr>
+<h3 id="总结">总结</h3>
+<ul>
+<li><strong>跳转列表</strong>：<code>Ctrl-o</code> 和 <code>Ctrl-i</code> 是最常用的方式。</li>
+<li><strong>更改列表</strong>：<code>g;</code> 和 <code>g,</code> 适合在修改位置之间跳转。</li>
+<li><strong>标记</strong>：适合保存和跳转到特定位置。</li>
+<li><strong>插件</strong>：可以增强跳转功能，提供更直观的导航。</li>
+</ul>
+<p>通过这些方法，你可以在 NeoVim 中高效地在多个位置之间跳转！</p>
+</section>
+
+  
+  
+
+  
+  
+  
+  
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg !leading-[1.2] *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  >
+    
+    
+    <a class="ltr:ml-auto rtl:mr-auto justify-end pl-3" href="http://localhost:1313/posts/python%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/"
+      ><span>Python学习入门</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="mx-auto flex h-[4.5rem] max-w-[--w] items-center px-8 text-xs uppercase tracking-wider opacity-60"
+>
+  <div class="mr-auto">
+  
+    &copy; 2025
+    <a class="link" href="http://localhost:1313/">心之所憩</a>
+  
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+
+  </body>
+</html>
